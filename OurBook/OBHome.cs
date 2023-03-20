@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -13,11 +14,12 @@ namespace OurBook
         SqlDataReader dr;
         SqlCommand cmd;
         SqlConnection cn;
-        System.Collections.Generic.Dictionary<string, object> userAttributes; 
+        System.Collections.Generic.Dictionary<string, object> userAttributes;
+        int userId; 
 
         public OBHome(int UserID)
         {
-            
+            userId = UserID; 
 
             InitializeComponent();
             //TODO: Load user data from file. 
@@ -26,7 +28,7 @@ namespace OurBook
             cn.Open();
 
             cmd = new SqlCommand("select * from UserTable where id=@id", cn);
-            cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.VarChar) { Value = UserID });
+            cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.VarChar) { Value = userId });
             dr = cmd.ExecuteReader();
             dr.Read();
             userAttributes = Enumerable.Range(0, dr.FieldCount).ToDictionary(dr.GetName, dr.GetValue);
@@ -44,12 +46,28 @@ namespace OurBook
         private void DisplayBills()
         {
             var items = UnpaidBillsListBox.Items;
-            string sqlCmd = "select * from BillingTable";
+            List<DateTime> billIdList = new List<DateTime>();
 
-            cmd = new SqlCommand(sqlCmd, cn);
-            //cmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
+            cmd = new SqlCommand("select * from UsersBills where UserId=@UserId", cn);
+            cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.VarChar) { Value = userId });
 
             dr = cmd.ExecuteReader();
+
+            if(dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    if (dr[0] != null || dr[1] != null)
+                    {
+                        billIdList.Add((DateTime)dr[1]);
+                    }
+                }
+            }
+
+            foreach (DateTime i in billIdList)
+            {
+                Console.WriteLine($"{i}"); 
+            }
 
             //TODO: Add bills to global (class) datatype. Maybe create a custom datatype. Then display bills on 
         }

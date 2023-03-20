@@ -16,7 +16,7 @@ namespace OurBook
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OBAdminCreate());
+            Application.Run(new OBLogin());
         }
     }
 }

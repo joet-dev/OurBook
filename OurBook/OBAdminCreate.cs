@@ -37,7 +37,7 @@ namespace OurBook
         {
             if (TitleTextBox.Text != string.Empty)
             {
-                cmd = new SqlCommand("insert into BillingTable values(@Name, @Cost, @NumPayee, @InvoiceId, @DateCreated, @DateCompleted); select SCOPE_IDENTITY()", cn);
+                cmd = new SqlCommand("insert into BillingTable values(@DateCreated, @DateCompleted, @Name, @Cost, @NumPayee, @InvoiceId)", cn);
                 
                 cmd.Parameters.AddWithValue("Name", TitleTextBox.Text);
                 cmd.Parameters.AddWithValue("InvoiceId", InvoiceTextBox.Text);
@@ -48,8 +48,8 @@ namespace OurBook
 
                 cn.Open();
 
-                int billId = Convert.ToInt32(cmd.ExecuteScalar());
-                BillUsers(billId);
+                cmd.ExecuteNonQuery(); 
+                BillUsers();
 
                 cn.Close(); 
 
@@ -104,7 +104,7 @@ namespace OurBook
             DateTextBox.ReadOnly = true;
         }
  
-        private void BillUsers(int billId)
+        private void BillUsers()
         {
             if (UsersListBox.CheckedItems.Count != 0)
             {
@@ -113,7 +113,7 @@ namespace OurBook
                     User temp = (User)UsersListBox.CheckedItems[i];
                     
                     cmd = new SqlCommand("insert into UsersBills values(@UserId, @BillId)", cn);
-                    cmd.Parameters.AddWithValue("BillId", billId);
+                    cmd.Parameters.AddWithValue("BillId", creationTime);
                     cmd.Parameters.AddWithValue("UserId", temp.Id);
 
                     cmd.ExecuteNonQuery();
