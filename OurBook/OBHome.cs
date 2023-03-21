@@ -22,7 +22,6 @@ namespace OurBook
             userId = UserID; 
 
             InitializeComponent();
-            //TODO: Load user data from file. 
 
             cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True");
             cn.Open();
@@ -32,9 +31,9 @@ namespace OurBook
             dr = cmd.ExecuteReader();
             dr.Read();
             userAttributes = Enumerable.Range(0, dr.FieldCount).ToDictionary(dr.GetName, dr.GetValue);
-            dr.Close(); 
+            dr.Close();
 
-            //TODO: Create a database that can store jobs/payments. 
+            cn.Close();
         }
 
         private void OBHome_Load(object sender, EventArgs e)
@@ -46,30 +45,37 @@ namespace OurBook
         private void DisplayBills()
         {
             var items = UnpaidBillsListBox.Items;
-            List<DateTime> billIdList = new List<DateTime>();
 
-            cmd = new SqlCommand("select * from UsersBills where UserId=@UserId", cn);
+            var sqlCmdString = "SELECT B.[Cost], " +
+                "B.[Name], " +
+                "B.[DateCreated], " +
+                "(CAST(B.Cost AS DECIMAL)/B.[NumPayee]) AS SplitCost " +
+                "FROM BillingTable B where B.DateCreated in (select UB.DateCreated from UsersBills UB where UserId=@UserId)";
+
+            cmd = new SqlCommand(sqlCmdString, cn);
             cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.VarChar) { Value = userId });
 
+            cn.Open(); 
             dr = cmd.ExecuteReader();
 
             if(dr.HasRows)
             {
                 while (dr.Read())
                 {
-                    if (dr[0] != null || dr[1] != null)
+                    if (dr["DateCreated"] != null)
                     {
-                        billIdList.Add((DateTime)dr[1]);
+                        //Possibly append to custom object list then display in list. 
+                        items.Add($"${Math.Round((decimal) dr["SplitCost"], 2)} - { dr["Name"]} ({dr["DateCreated"]})");
                     }
                 }
             }
 
-            foreach (DateTime i in billIdList)
-            {
-                Console.WriteLine($"{i}"); 
-            }
+            //TODO: Add paid (bool) & datePaid (DateTime2) column to UsersBills. 
+            //TODO: Make it so that on update it checks whether everybody has completed payment. 
+            //TODO: If everybody has completed payment -> UPDATE DateCompleted in BillingTable.
+            //TODO: Admin can see completed bills, verify payment, append information to excel spreadsheet (for ledger purposes), then REMOVE associated rows from UsersBills. 
 
-            //TODO: Add bills to global (class) datatype. Maybe create a custom datatype. Then display bills on 
+            cn.Close(); 
         }
     }
 }

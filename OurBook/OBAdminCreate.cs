@@ -79,9 +79,9 @@ namespace OurBook
             {
                 while (dr.Read())
                 {
-                    if (dr[0] != null || dr[1] != null)
+                    if (dr["Id"] != null)
                     {
-                        accList.Add(new User((int)dr[0], (string)dr[1]));
+                        accList.Add(new User((int)dr["Id"], (string)dr["username"]));
                     }
                 }
             }
