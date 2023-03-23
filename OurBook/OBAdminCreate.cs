@@ -17,7 +17,7 @@ namespace OurBook
         SqlCommand cmd;
         SqlConnection cn;
 
-        DateTime creationTime = DateTime.Now;
+        DateTime creationTime;
         private List<User> accList = new List<User>();
 
         public OBAdminCreate()
@@ -35,27 +35,36 @@ namespace OurBook
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
+            creationTime = DateTime.Now; 
+
             if (TitleTextBox.Text != string.Empty)
             {
-                cmd = new SqlCommand("insert into BillingTable values(@DateCreated, @DateCompleted, @Name, @Cost, @NumPayee, @InvoiceId)", cn);
-                
-                cmd.Parameters.AddWithValue("Name", TitleTextBox.Text);
-                cmd.Parameters.AddWithValue("InvoiceId", InvoiceTextBox.Text);
-                cmd.Parameters.AddWithValue("Cost", AmountValue.Value);
-                cmd.Parameters.AddWithValue("NumPayee", UsersListBox.CheckedItems.Count);
-                cmd.Parameters.AddWithValue("DateCreated", creationTime);
-                cmd.Parameters.AddWithValue("DateCompleted", DBNull.Value);
+                if (UsersListBox.CheckedItems.Count != 0)
+                {
+                    cmd = new SqlCommand("insert into BillingTable values(@DateCreated, @DateCompleted, @Name, @Cost, @NumPayee, @InvoiceId)", cn);
 
-                cn.Open();
+                    cmd.Parameters.AddWithValue("Name", TitleTextBox.Text);
+                    cmd.Parameters.AddWithValue("InvoiceId", InvoiceTextBox.Text);
+                    cmd.Parameters.AddWithValue("Cost", AmountValue.Value);
+                    cmd.Parameters.AddWithValue("NumPayee", UsersListBox.CheckedItems.Count);
+                    cmd.Parameters.AddWithValue("DateCreated", creationTime);
+                    cmd.Parameters.AddWithValue("DateCompleted", DBNull.Value);
 
-                cmd.ExecuteNonQuery(); 
-                BillUsers();
+                    cn.Open();
 
-                cn.Close(); 
+                    cmd.ExecuteNonQuery();
+                    BillUsers();
 
-                MessageBox.Show("The bill has been added to the database.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cn.Close();
 
-                this.Hide();
+                    MessageBox.Show("The bill has been added to the database.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Please select users for this bill.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -87,7 +96,7 @@ namespace OurBook
             }
             else
             {
-                Console.WriteLine("No rows available.");
+                Console.WriteLine("No rows available from UserTable.");
             }
             dr.Close();
             cn.Close(); 
@@ -112,22 +121,14 @@ namespace OurBook
                 {
                     User temp = (User)UsersListBox.CheckedItems[i];
                     
-                    cmd = new SqlCommand("insert into UsersBills values(@UserId, @BillId)", cn);
+                    cmd = new SqlCommand("insert into UsersBills values(@UserId, @BillId, @DatePaid)", cn);
                     cmd.Parameters.AddWithValue("BillId", creationTime);
                     cmd.Parameters.AddWithValue("UserId", temp.Id);
+                    cmd.Parameters.AddWithValue("DatePaid", DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-
-        //private void UsersListBox_SelectedIndexChanged(object senter, EventArgs e)
-        //{
-        //    int selected = UsersListBox.SelectedIndex; 
-        //    if (selected != -1)
-        //    {
-        //        Console.WriteLine(UsersListBox.Items[selected].ToString()); 
-        //    }
-        //}
     }
 }

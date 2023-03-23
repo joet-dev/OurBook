@@ -74,6 +74,7 @@ namespace OurBook
             this.UpdateBillsButton.TabIndex = 3;
             this.UpdateBillsButton.Text = "Update";
             this.UpdateBillsButton.UseVisualStyleBackColor = true;
+            this.UpdateBillsButton.Click += new System.EventHandler(this.UpdateBillsButton_Click);
             // 
             // OBHome
             // 
