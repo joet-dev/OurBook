@@ -82,11 +82,6 @@ namespace OurBook
             }
 
             UnpaidBillsListBox.CheckOnClick = true; 
-
-            //TODO: Add nullable datePaid (DateTime2) column to UsersBills. 
-            //TODO: Make it so that on update it checks whether everybody has completed payment. 
-            //TODO: If everybody has completed payment -> UPDATE DateCompleted in BillingTable.
-            //TODO: Admin can see completed bills, verify payment, append information to excel spreadsheet (for ledger purposes), then REMOVE associated rows from UsersBills. 
         }
 
         private void UpdateBillsButton_Click(object sender, EventArgs e)
@@ -105,7 +100,9 @@ namespace OurBook
                     cmd.ExecuteNonQuery();
                     cn.Close();
 
-                    CheckBillPaid(temp.DateCreated); 
+                    CheckBillPaid(temp.DateCreated);
+
+                    MessageBox.Show("Your bills have been updated!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
@@ -113,12 +110,24 @@ namespace OurBook
                 MessageBox.Show("There are no bills selected to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+
             DisplayBills(); 
         }
 
+
         private void CheckBillPaid(DateTime dateCreated)
         {
-            
+            string checkBillsPaidSql = "IF EXISTS (SELECT * FROM UsersBills WHERE DateCreated=@DateCreated AND DatePaid IS NULL) " +
+                "BEGIN PRINT 'fail.' END" + 
+                " ELSE " +
+                "BEGIN UPDATE BillingTable SET DateCompleted=GETDATE() WHERE DateCreated=@DateCreated END";
+
+            cmd = new SqlCommand(checkBillsPaidSql, cn);
+            cmd.Parameters.Add(new SqlParameter("DateCreated", SqlDbType.DateTime2) { Value = dateCreated });
+
+            cn.Open();
+            cmd.ExecuteNonQuery();
+            cn.Close(); 
         }
     }
 }

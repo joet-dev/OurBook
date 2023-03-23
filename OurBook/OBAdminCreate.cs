@@ -17,7 +17,7 @@ namespace OurBook
         SqlCommand cmd;
         SqlConnection cn;
 
-        DateTime creationTime;
+        DateTime creationTime = DateTime.Now;
         private List<User> accList = new List<User>();
 
         public OBAdminCreate()
@@ -32,11 +32,9 @@ namespace OurBook
 
             InitializeFormControl();
         }
-
+        
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            creationTime = DateTime.Now; 
-
             if (TitleTextBox.Text != string.Empty)
             {
                 if (UsersListBox.CheckedItems.Count != 0)
@@ -111,6 +109,10 @@ namespace OurBook
 
             DateTextBox.Text = creationTime.ToString();
             DateTextBox.ReadOnly = true;
+
+            AmountValue.Maximum = 5000;
+            AmountValue.Minimum = 0;
+            AmountValue.DecimalPlaces = 2; 
         }
  
         private void BillUsers()
