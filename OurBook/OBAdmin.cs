@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,8 +14,6 @@ namespace OurBook
 {
     public partial class OBAdmin : Form
     {
-        SqlDataReader dr;
-        SqlCommand cmd;
         SqlConnection cn;
         public OBAdmin()
         {
@@ -28,8 +27,6 @@ namespace OurBook
 
             PopulateDataGridView(); 
 
-            //// TODO: This line of code loads data into the 'ourbookDatabaseDataSet.BillingTable' table. You can move, or remove it, as needed.
-            //this.billingTableTableAdapter.Fill(this.ourbookDatabaseDataSet.BillingTable);
         }
         private void PopulateDataGridView()
         {
@@ -63,7 +60,7 @@ namespace OurBook
             return table; 
         }
 
-        private void AddBill_Click(object sender, EventArgs e)
+        private void CreateBillButton_Click(object sender, EventArgs e)
         {
             OBAdminCreate create = new OBAdminCreate();
             create.ShowDialog();
@@ -71,20 +68,14 @@ namespace OurBook
             PopulateDataGridView();
         }
 
-        private void DeleteBill_Click(object sender, EventArgs e)
+        private void LogoutButton_Click(object sender, EventArgs e)
         {
+            var th = new Thread(() => Application.Run(new OBLogin()));
+            th.Start(); 
 
+            this.Close();
         }
 
-        private void EditBill_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SearchDatabase_Click(object sender, EventArgs e)
-        {
-
-        }
 
         //TODO: Have a create bill page to add bills. 
         //TODO: Create bill page will have a title headline, a uneditable datetime field, an amount, and a list of users to include in the bill. The bill will be split evenly among users included. 

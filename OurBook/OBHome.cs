@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace OurBook
@@ -128,6 +129,14 @@ namespace OurBook
             cn.Open();
             cmd.ExecuteNonQuery();
             cn.Close(); 
+        }
+
+        private void Logoutbutton_Click(object sender, EventArgs e)
+        {
+            var th = new Thread(() => Application.Run(new OBLogin()));
+            th.Start();
+
+            this.Close();
         }
     }
 }

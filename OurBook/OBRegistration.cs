@@ -13,65 +13,126 @@ namespace OurBook
 {
     public partial class OBRegistration : Form
     {
-        SqlConnection cn;
-        SqlCommand cmd;
-        SqlDataReader dr;
+        private String dbConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True";
+        private Role role; 
 
-        public OBRegistration()
+        public enum Role
+        {
+            admin, 
+            user
+        }
+
+        /// <summary>
+        /// Registration form for OurBook. 
+        /// </summary>
+        /// <param name="role"> Sets the type of role the user will be registered to. </param>
+        public OBRegistration(Role role)
         {
             InitializeComponent();
+            
+            // enum role is used to ensure there are no errors in args. 
+            this.role = role;
+
+            InitializeFormDisplay();
         }
 
-        private void OBRegistration_Load(object sender, EventArgs e)
-        {
-            cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True");
-            cn.Open();
-        }
-
+        /// <summary>
+        /// Creates a new user in the UserTable. 
+        /// - The password is hashed with salt.
+        /// </summary>
         private void RegistrationButton_Click(object sender, EventArgs e)
+        {
+            if (IsInputValid())
+            {
+                OBPassHash hasher = new OBPassHash();
+                string hashedPassword = hasher.Compute(passwordTextBox.Text);
+                string salt = hasher.Salt;
+
+                using (SqlConnection cn = new SqlConnection(dbConnectionStr))
+                {
+                    String query = "INSERT INTO UserTable VALUES(@username, @password, @salt, @role)";
+                    using (SqlCommand cmd = new SqlCommand(query, cn))
+                    {
+                        cmd.Parameters.AddWithValue("username", usernameTextBox.Text);
+                        cmd.Parameters.AddWithValue("password", hashedPassword);
+                        cmd.Parameters.AddWithValue("salt", salt);
+                        cmd.Parameters.AddWithValue("role", Enum.GetName(this.role.GetType(), this.role));
+
+                        cn.Open();
+                        cmd.ExecuteNonQuery();
+                        cn.Close();
+
+                        MessageBox.Show("Your account has been created. Please login.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    this.Hide();
+                    OBLogin login = new OBLogin();
+                    login.ShowDialog();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validates user input to ensure values are appropriate for database insert. 
+        /// </summary>
+        /// <returns> Whether the input is valid. </returns>
+        private bool IsInputValid()
         {
             if (confirmPasswordTextBox.Text != string.Empty || passwordTextBox.Text != string.Empty || usernameTextBox.Text != string.Empty)
             {
                 if (confirmPasswordTextBox.Text == passwordTextBox.Text)
                 {
-                    cmd = new SqlCommand("select * from UserTable where username=@userParam", cn);
-                    cmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
-                    dr = cmd.ExecuteReader();
-
-                    if (dr.Read())
+                    using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                     {
-                        dr.Close();
-                        MessageBox.Show("Username already exists please try another", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        dr.Close();
+                        String query = "SELECT username from UserTable where username=@userParam";
+                        using (SqlCommand selectCmd = new SqlCommand(query, cn))
+                        {
+                            selectCmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
 
-                        OBPassHash hasher = new OBPassHash();
-                        string hashedPassword = hasher.Compute(passwordTextBox.Text);
-                        string salt = hasher.Salt;
+                            cn.Open();
+                            String username = (string) selectCmd.ExecuteScalar();
+                            cn.Close(); 
 
-                        cmd = new SqlCommand("insert into UserTable values(@username, @password, @salt)", cn);
-                        cmd.Parameters.AddWithValue("username", usernameTextBox.Text);
-                        cmd.Parameters.AddWithValue("password", hashedPassword);
-                        cmd.Parameters.AddWithValue("salt", salt);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Your Account is created. Please login now.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (string.IsNullOrEmpty(username))
+                            {
+                                return true; 
+                            }
+                            else
+                            {
+                                MessageBox.Show("Username already exists please try another.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                        this.Hide();
-                        OBLogin login = new OBLogin();
-                        login.ShowDialog();
+                                return false;
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please enter both password same ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Passwords do not match.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return false; 
                 }
             }
             else
             {
                 MessageBox.Show("Please enter values in all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return false;
             }
+        }
+
+        /// <summary>
+        /// Form display settings.
+        /// </summary>
+        private void InitializeFormDisplay()
+        {
+            passwordTextBox.UseSystemPasswordChar = true;
+            passwordTextBox.MaxLength = 14;
+            passwordTextBox.AcceptsReturn = true;
+
+            RoleLabel.AutoSize = false;
+            RoleLabel.Text = "Role: " + Enum.GetName(this.role.GetType(), this.role);
+            RoleLabel.TextAlign = ContentAlignment.BottomRight;
         }
     }
 }

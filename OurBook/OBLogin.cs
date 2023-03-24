@@ -50,7 +50,7 @@ namespace OurBook
 
                     if (hashedPassword == userAttributes["password"].ToString())
                     {
-                        if (userAttributes["username"].ToString() == "joet")
+                        if (userAttributes["role"].ToString() == "admin")
                         {
                             dr.Close();
                             this.Hide();

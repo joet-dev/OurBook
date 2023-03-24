@@ -34,6 +34,7 @@ namespace OurBook
             this.UnpaidBillsListBox = new System.Windows.Forms.CheckedListBox();
             this.UnpaidBillsLabel = new System.Windows.Forms.Label();
             this.UpdateBillsButton = new System.Windows.Forms.Button();
+            this.Logoutbutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // WelcomeLabel
@@ -76,12 +77,25 @@ namespace OurBook
             this.UpdateBillsButton.UseVisualStyleBackColor = true;
             this.UpdateBillsButton.Click += new System.EventHandler(this.UpdateBillsButton_Click);
             // 
+            // Logoutbutton
+            // 
+            this.Logoutbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Logoutbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Logoutbutton.Location = new System.Drawing.Point(289, 12);
+            this.Logoutbutton.Name = "Logoutbutton";
+            this.Logoutbutton.Size = new System.Drawing.Size(58, 23);
+            this.Logoutbutton.TabIndex = 4;
+            this.Logoutbutton.Text = "Logout";
+            this.Logoutbutton.UseVisualStyleBackColor = true;
+            this.Logoutbutton.Click += new System.EventHandler(this.Logoutbutton_Click);
+            // 
             // OBHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(359, 263);
+            this.ClientSize = new System.Drawing.Size(359, 264);
+            this.Controls.Add(this.Logoutbutton);
             this.Controls.Add(this.UpdateBillsButton);
             this.Controls.Add(this.UnpaidBillsLabel);
             this.Controls.Add(this.UnpaidBillsListBox);
@@ -101,5 +115,6 @@ namespace OurBook
         private System.Windows.Forms.CheckedListBox UnpaidBillsListBox;
         private System.Windows.Forms.Label UnpaidBillsLabel;
         private System.Windows.Forms.Button UpdateBillsButton;
+        private System.Windows.Forms.Button Logoutbutton;
     }
 }

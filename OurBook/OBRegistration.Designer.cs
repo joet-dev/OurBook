@@ -37,6 +37,7 @@ namespace OurBook
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.confirmPasswordTextBox = new System.Windows.Forms.TextBox();
             this.confirmPasswordLabel = new System.Windows.Forms.Label();
+            this.RoleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // registrationButton
@@ -98,12 +99,25 @@ namespace OurBook
             this.confirmPasswordLabel.TabIndex = 5;
             this.confirmPasswordLabel.Text = "Confirm Password";
             // 
+            // RoleLabel
+            // 
+            this.RoleLabel.AutoSize = true;
+            this.RoleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RoleLabel.ForeColor = System.Drawing.Color.Red;
+            this.RoleLabel.Location = new System.Drawing.Point(171, 167);
+            this.RoleLabel.Name = "RoleLabel";
+            this.RoleLabel.Size = new System.Drawing.Size(113, 16);
+            this.RoleLabel.TabIndex = 7;
+            this.RoleLabel.Text = "Role Placeholder";
+            this.RoleLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
             // OBRegistration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(299, 194);
+            this.Controls.Add(this.RoleLabel);
             this.Controls.Add(this.confirmPasswordTextBox);
             this.Controls.Add(this.confirmPasswordLabel);
             this.Controls.Add(this.passwordTextBox);
@@ -116,7 +130,6 @@ namespace OurBook
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OBRegistration";
             this.Text = "OurBook";
-            this.Load += new System.EventHandler(this.OBRegistration_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,6 +144,7 @@ namespace OurBook
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.TextBox confirmPasswordTextBox;
         private System.Windows.Forms.Label confirmPasswordLabel;
+        private System.Windows.Forms.Label RoleLabel;
     }
 }
 
