@@ -116,7 +116,6 @@ namespace OurBook
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OBLogin";
             this.Text = "OurBook";
-            this.Load += new System.EventHandler(this.OBLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

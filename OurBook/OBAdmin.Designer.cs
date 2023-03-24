@@ -40,6 +40,7 @@ namespace OurBook
             this.CreateBillButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.LogoutButton = new System.Windows.Forms.ToolStripButton();
+            this.UserLabel = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.billingTableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ourbookDatabaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.billingTableBindingSource1)).BeginInit();
@@ -81,7 +82,8 @@ namespace OurBook
             this.ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateBillButton,
             this.ToolStripSeparator,
-            this.LogoutButton});
+            this.LogoutButton,
+            this.UserLabel});
             this.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ToolStrip.Name = "ToolStrip";
             this.ToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -116,6 +118,15 @@ namespace OurBook
             this.LogoutButton.Text = "Logout";
             this.LogoutButton.Click += new System.EventHandler(this.LogoutButton_Click);
             // 
+            // UserLabel
+            // 
+            this.UserLabel.ActiveLinkColor = System.Drawing.Color.White;
+            this.UserLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.UserLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.UserLabel.Name = "UserLabel";
+            this.UserLabel.Size = new System.Drawing.Size(98, 22);
+            this.UserLabel.Text = "User: Placeholder";
+            // 
             // OBAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -127,7 +138,6 @@ namespace OurBook
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OBAdmin";
             this.Text = "OurBook Admin";
-            this.Load += new System.EventHandler(this.OBAdmin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.billingTableBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ourbookDatabaseDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.billingTableBindingSource1)).EndInit();
@@ -149,5 +159,6 @@ namespace OurBook
         private System.Windows.Forms.ToolStripButton CreateBillButton;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator;
         private System.Windows.Forms.ToolStripButton LogoutButton;
+        private System.Windows.Forms.ToolStripLabel UserLabel;
     }
 }

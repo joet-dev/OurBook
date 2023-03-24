@@ -13,85 +13,97 @@ namespace OurBook
 {
     public partial class OBLogin : Form
     {
-        SqlDataReader dr;
-        SqlCommand cmd;
-        SqlConnection cn;
+        private String dbConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True";
 
+        /// <summary>
+        /// Login form for OurBook
+        /// </summary>
         public OBLogin()
         {
             InitializeComponent();
+            InitializeFormDisplay();
         }
 
-        private void OBLogin_Load(object sender, EventArgs e)
-        {
-            cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True");
-            cn.Open();
-
-            InitializePasswordControl();
-        }
-
+        /// <summary>
+        /// Authenticates user. 
+        /// </summary>
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            if (passwordTextBox.Text != string.Empty || usernameTextBox.Text != string.Empty)
+            if (IsInputValid())
             {
-                
-                // Parameterized so to protect against SQL injection.
-                cmd = new SqlCommand("select * from UserTable where username=@userParam", cn);
-                cmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
-                dr = cmd.ExecuteReader();
-                if (dr.Read())
+                using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                 {
-                    var userAttributes = Enumerable.Range(0, dr.FieldCount).ToDictionary(dr.GetName, dr.GetValue);
-
-                    String salt = userAttributes["salt"].ToString();
-
-                    OBPassHash hasher = new OBPassHash();
-                    string hashedPassword = hasher.Compute(passwordTextBox.Text, salt);
-
-                    if (hashedPassword == userAttributes["password"].ToString())
+                    String query = "SELECT * FROM UserTable WHERE username=@userParam";
+                    using (SqlCommand cmd = new SqlCommand(query, cn))
                     {
-                        if (userAttributes["role"].ToString() == "admin")
+                        cmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
+
+                        cn.Open();
+                        SqlDataReader dr = cmd.ExecuteReader();
+                        if (dr.Read())
                         {
-                            dr.Close();
-                            this.Hide();
-                            OBAdmin admin = new OBAdmin();
-                            admin.ShowDialog();
+                            OBPassHash hasher = new OBPassHash();
+                            string hashedPassword = hasher.Compute(passwordTextBox.Text, dr["salt"].ToString());
+
+                            if (hashedPassword == dr["password"].ToString())
+                            {
+                                if (dr["role"].ToString() == "admin")
+                                {
+                                    this.Hide();
+                                    OBAdmin admin = new OBAdmin((int)dr["Id"]);
+                                    dr.Close();
+                                    cn.Close();
+                                    admin.ShowDialog();
+                                }
+                                else
+                                {
+                                    this.Hide();
+                                    OBHome home = new OBHome((int)dr["Id"]);
+                                    dr.Close();
+                                    cn.Close();
+                                    home.ShowDialog();
+                                }
+                            }
+                            else
+                            {
+                                dr.Close();
+                                cn.Close();
+                                MessageBox.Show("Username or password is incorrect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                         else
                         {
                             dr.Close();
-                            this.Hide();
-                            //TODO: Pass through the userattribute dictionary.
-                            OBHome home = new OBHome((int) userAttributes["Id"]);
-                            home.ShowDialog();
+                            cn.Close();
+                            MessageBox.Show("Username or password is incorrect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                    }
-                    else
-                    {
-                        dr.Close();
-                        MessageBox.Show("Username or password is incorrect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
                     }
                 }
-                else
-                {
-                    dr.Close();
-                    MessageBox.Show("Username or password is incorrect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+        }
 
+        /// <summary>
+        /// Checks input credential validity.
+        /// </summary>
+        /// <returns> Whether the input is valid. </returns>
+        private bool IsInputValid()
+        {
+            if (passwordTextBox.Text != string.Empty || usernameTextBox.Text != string.Empty)
+            {
+                return true;
             }
             else
             {
-                MessageBox.Show("Please enter value in all field.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter values in all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return false; 
             }
         }
 
-        private void InitializePasswordControl()
-        {
-            passwordTextBox.UseSystemPasswordChar = true;
-            passwordTextBox.MaxLength = 14;
-            passwordTextBox.AcceptsReturn = true;
-        }
-
+        /// <summary>
+        /// Onclick method for showing and hiding the password. 
+        /// </summary>
         private void ShowHidePass_CheckedChanged(object sender, EventArgs e)
         {
             if (ShowHidePass.Checked)
@@ -102,6 +114,17 @@ namespace OurBook
             {
                 passwordTextBox.UseSystemPasswordChar = true;
             }
+        }
+
+        /// <summary>
+        /// Form display settings.  
+        /// </summary>
+        private void InitializeFormDisplay()
+        {
+            this.CenterToScreen(); 
+            passwordTextBox.UseSystemPasswordChar = true;
+            passwordTextBox.MaxLength = 14;
+            passwordTextBox.AcceptsReturn = true;
         }
     }
 }

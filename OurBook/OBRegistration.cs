@@ -25,8 +25,8 @@ namespace OurBook
         /// <summary>
         /// Registration form for OurBook. 
         /// </summary>
-        /// <param name="role"> Sets the type of role the user will be registered to. </param>
-        public OBRegistration(Role role)
+        /// <param name="role"> Role type. Sets the type of role the user will be registered to. </param>
+        public OBRegistration(Role role=Role.user)
         {
             InitializeComponent();
             
@@ -126,13 +126,17 @@ namespace OurBook
         /// </summary>
         private void InitializeFormDisplay()
         {
+            this.CenterToScreen();
             passwordTextBox.UseSystemPasswordChar = true;
             passwordTextBox.MaxLength = 14;
             passwordTextBox.AcceptsReturn = true;
+            confirmPasswordTextBox.UseSystemPasswordChar = true;
+            confirmPasswordTextBox.MaxLength = 14;
+            confirmPasswordTextBox.AcceptsReturn = true;
 
             RoleLabel.AutoSize = false;
-            RoleLabel.Text = "Role: " + Enum.GetName(this.role.GetType(), this.role);
-            RoleLabel.TextAlign = ContentAlignment.BottomRight;
+            RoleLabel.Text = "Role: " + Enum.GetName(this.role.GetType(), this.role).ToUpper();
+            RoleLabel.TextAlign = ContentAlignment.BottomRight;   
         }
     }
 }

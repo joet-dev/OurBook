@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,25 +15,31 @@ namespace OurBook
 {
     public partial class OBAdmin : Form
     {
-        SqlConnection cn;
-        public OBAdmin()
+        User user; 
+
+        /// <summary>
+        /// Admin dashboard for OurBook. 
+        /// Intializes user object. 
+        /// </summary>
+        /// <param name="userId"> User id number. Sets the user information for the form. </param>
+        public OBAdmin(int userId)
         {
             InitializeComponent();
+
+            user = new User(userId); 
+
+            InitializeFormDisplay();
+            PopulateDataGridView();
         }
 
-        private void OBAdmin_Load(object sender, EventArgs e)
-        {
-            cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True");
-            cn.Open();
-
-            PopulateDataGridView(); 
-
-        }
+        /// <summary>
+        /// Populates data grid.
+        /// </summary>
         private void PopulateDataGridView()
         {
             try 
             {
-                billingTableBindingSource.DataSource = GetTableData("select * from BillingTable");
+                billingTableBindingSource.DataSource = GetTableData("SELECT * FROM BillingTable");
                 BillingGridView.DataSource = billingTableBindingSource;
 
                 BillingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
@@ -45,6 +52,11 @@ namespace OurBook
             }
         }
 
+        /// <summary>
+        /// Retrieves table data from database.
+        /// </summary>
+        /// <param name="sqlCommand"> The sql command to retrieve table data. </param>
+        /// <returns> DataTable containing all data read from the sql command input. </returns>
         private static DataTable GetTableData(string sqlCommand)
         {
             SqlConnection tableConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True");
@@ -60,6 +72,9 @@ namespace OurBook
             return table; 
         }
 
+        /// <summary>
+        /// BUTTON: Creates a new bill. 
+        /// </summary>
         private void CreateBillButton_Click(object sender, EventArgs e)
         {
             OBAdminCreate create = new OBAdminCreate();
@@ -68,6 +83,9 @@ namespace OurBook
             PopulateDataGridView();
         }
 
+        /// <summary>
+        /// BUTTON: Logs out the user. 
+        /// </summary>
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             var th = new Thread(() => Application.Run(new OBLogin()));
@@ -76,6 +94,14 @@ namespace OurBook
             this.Close();
         }
 
+        /// <summary>
+        /// Form display settings. 
+        /// </summary>
+        private void InitializeFormDisplay()
+        {
+            this.CenterToScreen();
+            UserLabel.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.username); 
+        }
 
         //TODO: Have a create bill page to add bills. 
         //TODO: Create bill page will have a title headline, a uneditable datetime field, an amount, and a list of users to include in the bill. The bill will be split evenly among users included. 

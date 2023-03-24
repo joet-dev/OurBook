@@ -159,6 +159,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>ourbookDatabase.mdf</DependentUpon>
     </Content>
+    <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

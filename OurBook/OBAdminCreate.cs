@@ -76,7 +76,7 @@ namespace OurBook
             UsersListBox.Sorted = true;
 
             //Get all users and display them in the UsersListBox. 
-            cmd = new SqlCommand("select Id, username from UserTable", cn);
+            cmd = new SqlCommand("select Id, username, role from UserTable", cn);
 
             cn.Open(); 
             dr = cmd.ExecuteReader();
@@ -88,7 +88,7 @@ namespace OurBook
                 {
                     if (dr["Id"] != null)
                     {
-                        accList.Add(new User((int)dr["Id"], (string)dr["username"]));
+                        accList.Add(new User((int)dr["Id"], (string)dr["username"], (string)dr["role"]));
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace OurBook
                     
                     cmd = new SqlCommand("insert into UsersBills values(@UserId, @BillId, @DatePaid)", cn);
                     cmd.Parameters.AddWithValue("BillId", creationTime);
-                    cmd.Parameters.AddWithValue("UserId", temp.Id);
+                    cmd.Parameters.AddWithValue("UserId", temp.id);
                     cmd.Parameters.AddWithValue("DatePaid", DBNull.Value);
 
                     cmd.ExecuteNonQuery();
