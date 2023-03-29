@@ -46,7 +46,7 @@ namespace OurBook
             this.loginButton.Location = new System.Drawing.Point(12, 117);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(75, 23);
-            this.loginButton.TabIndex = 0;
+            this.loginButton.TabIndex = 3;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.LoginButton_Click);
@@ -74,14 +74,14 @@ namespace OurBook
             this.usernameTextBox.Location = new System.Drawing.Point(12, 32);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(272, 20);
-            this.usernameTextBox.TabIndex = 3;
+            this.usernameTextBox.TabIndex = 1;
             // 
             // passwordTextBox
             // 
             this.passwordTextBox.Location = new System.Drawing.Point(12, 81);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(222, 20);
-            this.passwordTextBox.TabIndex = 4;
+            this.passwordTextBox.TabIndex = 2;
             // 
             // fileSystemWatcher1
             // 
@@ -94,7 +94,7 @@ namespace OurBook
             this.ShowHidePass.Location = new System.Drawing.Point(240, 83);
             this.ShowHidePass.Name = "ShowHidePass";
             this.ShowHidePass.Size = new System.Drawing.Size(53, 17);
-            this.ShowHidePass.TabIndex = 5;
+            this.ShowHidePass.TabIndex = 10;
             this.ShowHidePass.Text = "Show";
             this.ShowHidePass.UseVisualStyleBackColor = true;
             this.ShowHidePass.CheckedChanged += new System.EventHandler(this.ShowHidePass_CheckedChanged);

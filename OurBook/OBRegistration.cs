@@ -1,4 +1,11 @@
-﻿using System;
+// <copyright file=OBRegistration>
+// Copyright (c) 2023 All Rights Reserved
+// </copyright>
+// <author>Joseph Thurlow</author>
+// <date> 28/03/2023 8:46:58 PM</date>
+// <summary>Class for Windows Form Registration page</summary>
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,14 +44,14 @@ namespace OurBook
         }
 
         /// <summary>
-        /// Creates a new user in the UserTable. 
+        /// BUTTON: Creates a new user in the UserTable. 
         /// - The password is hashed with salt.
         /// </summary>
         private void RegistrationButton_Click(object sender, EventArgs e)
         {
             if (IsInputValid())
             {
-                OBPassHash hasher = new OBPassHash();
+                PassHash hasher = new PassHash();
                 string hashedPassword = hasher.Compute(passwordTextBox.Text);
                 string salt = hasher.Salt;
 
@@ -75,7 +82,7 @@ namespace OurBook
         /// <summary>
         /// Validates user input to ensure values are appropriate for database insert. 
         /// </summary>
-        /// <returns> Whether the input is valid. </returns>
+        /// <returns> Boolean reflecting input validity </returns>
         private bool IsInputValid()
         {
             if (confirmPasswordTextBox.Text != string.Empty || passwordTextBox.Text != string.Empty || usernameTextBox.Text != string.Empty)

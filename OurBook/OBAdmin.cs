@@ -1,4 +1,11 @@
-﻿using System;
+// <copyright file=OBAdmin>
+// Copyright (c) 2023 All Rights Reserved
+// </copyright>
+// <author>Joseph Thurlow</author>
+// <date> 28/03/2023 8:46:58 PM</date>
+// <summary>Class for Windows Form Admin page</summary>
+                    
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -100,12 +107,7 @@ namespace OurBook
         private void InitializeFormDisplay()
         {
             this.CenterToScreen();
-            UserLabel.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(user.username); 
+            UserLabel.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase("User: " + user.username); 
         }
-
-        //TODO: Have a create bill page to add bills. 
-        //TODO: Create bill page will have a title headline, a uneditable datetime field, an amount, and a list of users to include in the bill. The bill will be split evenly among users included. 
-
-        //TODO: Have a view to show all previous views in tablature format along with who has paid and hasn't. Allow rows to be selected and cleared to completion.
     }
 }

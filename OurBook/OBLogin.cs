@@ -1,4 +1,11 @@
-﻿using System;
+// <copyright file=OBLogin>
+// Copyright (c) 2023 All Rights Reserved
+// </copyright>
+// <author>Joseph Thurlow</author>
+// <date> 28/03/2023 8:46:58 PM</date>
+// <summary>Class for Windows Form Login page</summary>
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,7 +49,7 @@ namespace OurBook
                         SqlDataReader dr = cmd.ExecuteReader();
                         if (dr.Read())
                         {
-                            OBPassHash hasher = new OBPassHash();
+                            PassHash hasher = new PassHash();
                             string hashedPassword = hasher.Compute(passwordTextBox.Text, dr["salt"].ToString());
 
                             if (hashedPassword == dr["password"].ToString())
@@ -102,7 +109,7 @@ namespace OurBook
         }
 
         /// <summary>
-        /// Onclick method for showing and hiding the password. 
+        /// CHECKBOX: shows or hides the password. 
         /// </summary>
         private void ShowHidePass_CheckedChanged(object sender, EventArgs e)
         {

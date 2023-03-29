@@ -95,14 +95,14 @@ namespace OurBook
             this.DateTextBox.Location = new System.Drawing.Point(80, 91);
             this.DateTextBox.Name = "DateTextBox";
             this.DateTextBox.Size = new System.Drawing.Size(166, 20);
-            this.DateTextBox.TabIndex = 6;
+            this.DateTextBox.TabIndex = 3;
             // 
             // AmountValue
             // 
             this.AmountValue.Location = new System.Drawing.Point(80, 65);
             this.AmountValue.Name = "AmountValue";
             this.AmountValue.Size = new System.Drawing.Size(166, 20);
-            this.AmountValue.TabIndex = 7;
+            this.AmountValue.TabIndex = 2;
             // 
             // UsersListBox
             // 
@@ -117,7 +117,7 @@ namespace OurBook
             this.InvoiceTextBox.Location = new System.Drawing.Point(80, 39);
             this.InvoiceTextBox.Name = "InvoiceTextBox";
             this.InvoiceTextBox.Size = new System.Drawing.Size(166, 20);
-            this.InvoiceTextBox.TabIndex = 10;
+            this.InvoiceTextBox.TabIndex = 1;
             // 
             // InvoiceLabel
             // 
@@ -148,7 +148,6 @@ namespace OurBook
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OBAdminCreate";
             this.Text = "OurBook Admin";
-            this.Load += new System.EventHandler(this.OBAdminCreate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AmountValue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

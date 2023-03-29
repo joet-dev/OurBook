@@ -1,1 +1,0 @@
-﻿// Parameterized so to protect against SQL injection.

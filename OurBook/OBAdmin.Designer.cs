@@ -32,8 +32,8 @@ namespace OurBook
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OBAdmin));
             this.billingTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.ourbookDatabaseDataSet = new OurBook.ourbookDatabaseDataSet();
-            this.billingTableTableAdapter = new OurBook.ourbookDatabaseDataSetTableAdapters.BillingTableTableAdapter();
+            this.ourbookDatabaseDataSet = new global::OurBook.ourbookDatabaseDataSet();
+            this.billingTableTableAdapter = new global::OurBook.ourbookDatabaseDataSetTableAdapters.BillingTableTableAdapter();
             this.billingTableBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.BillingGridView = new System.Windows.Forms.DataGridView();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
@@ -71,9 +71,9 @@ namespace OurBook
             // 
             this.BillingGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.BillingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.BillingGridView.Location = new System.Drawing.Point(1, 28);
+            this.BillingGridView.Location = new System.Drawing.Point(0, 28);
             this.BillingGridView.Name = "BillingGridView";
-            this.BillingGridView.Size = new System.Drawing.Size(544, 371);
+            this.BillingGridView.Size = new System.Drawing.Size(547, 371);
             this.BillingGridView.TabIndex = 2;
             // 
             // ToolStrip
@@ -93,12 +93,11 @@ namespace OurBook
             // 
             // CreateBillButton
             // 
-            this.CreateBillButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.CreateBillButton.Image = ((System.Drawing.Image)(resources.GetObject("CreateBillButton.Image")));
             this.CreateBillButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CreateBillButton.Name = "CreateBillButton";
-            this.CreateBillButton.Size = new System.Drawing.Size(23, 22);
-            this.CreateBillButton.Text = "CreateBill";
+            this.CreateBillButton.Size = new System.Drawing.Size(70, 22);
+            this.CreateBillButton.Text = "New Bill";
             this.CreateBillButton.ToolTipText = "Create a new bill";
             this.CreateBillButton.Click += new System.EventHandler(this.CreateBillButton_Click);
             // 
@@ -137,7 +136,7 @@ namespace OurBook
             this.Controls.Add(this.BillingGridView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OBAdmin";
-            this.Text = "OurBook Admin";
+            this.Text = "OBAdmin";
             ((System.ComponentModel.ISupportInitialize)(this.billingTableBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ourbookDatabaseDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.billingTableBindingSource1)).EndInit();

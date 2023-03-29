@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bill.cs" />
+    <Compile Include="PassHashInterface.cs" />
     <Compile Include="User.cs" />
     <Compile Include="OBAdminCreate.cs">
       <SubType>Form</SubType>
@@ -80,8 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ourbookDatabaseDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="PassHashInterface.cs" />
-    <Compile Include="OBPassHash.cs" />
+    <Compile Include="PassHash.cs" />
     <Compile Include="OBHome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,7 +100,7 @@
     <Compile Include="OBRegistration.Designer.cs">
       <DependentUpon>OBRegistration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="OurBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="OBAdminCreate.resx">
       <DependentUpon>OBAdminCreate.cs</DependentUpon>
@@ -159,7 +159,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>ourbookDatabase.mdf</DependentUpon>
     </Content>
-    <Content Include="README.txt" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
