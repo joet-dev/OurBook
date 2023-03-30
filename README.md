@@ -1,4 +1,4 @@
-﻿# OurBook - Billing Ledger
+﻿# OurBook - Billing Ledger :money_with_wings:
 
 ## Description
 This is a simple billing program geared towards housemates/tenants to simplify sharing and tracking bills.
