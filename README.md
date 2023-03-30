@@ -14,7 +14,7 @@ have paid off, automatically updating the servers, recording the date and time o
 date and time once the bill has been fully paid by all recipitents. 
 
 This program wasn't necessarily built to be fully useful for its usecase, but rather as a project 
-through which I could gain programming skills and techniques in c# and SQL. 
+through which I could gain programming skills and techniques in c# and SQL (Transact-SQL). 
 Along with these skills I learnt more about application design, cryptography, and database design.
 
 ##### Possible Future Features
