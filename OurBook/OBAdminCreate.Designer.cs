@@ -75,7 +75,7 @@ namespace OurBook
             this.CreateButton.Location = new System.Drawing.Point(171, 277);
             this.CreateButton.Name = "CreateButton";
             this.CreateButton.Size = new System.Drawing.Size(75, 23);
-            this.CreateButton.TabIndex = 4;
+            this.CreateButton.TabIndex = 5;
             this.CreateButton.Text = "Create";
             this.CreateButton.UseVisualStyleBackColor = true;
             this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
@@ -110,7 +110,7 @@ namespace OurBook
             this.UsersListBox.Location = new System.Drawing.Point(80, 117);
             this.UsersListBox.Name = "UsersListBox";
             this.UsersListBox.Size = new System.Drawing.Size(166, 154);
-            this.UsersListBox.TabIndex = 8;
+            this.UsersListBox.TabIndex = 4;
             // 
             // InvoiceTextBox
             // 

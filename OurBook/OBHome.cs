@@ -51,7 +51,7 @@ namespace OurBook
 
                     using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                     {
-                        String query = "UPDATE UsersBills SET DatePaid=GETDATE() WHERE UserId=@UserId AND DateCreated=@DateCreated";
+                        String query = "UPDATE [dbo].[UserBill] SET DatePaid=GETDATE() WHERE UserId=@UserId AND DateCreated=@DateCreated";
                         using (SqlCommand cmd = new SqlCommand(query, cn))
                         {
                             cmd.Parameters.Add(new SqlParameter("UserId", SqlDbType.VarChar) { Value = currentUser.id });
@@ -61,7 +61,7 @@ namespace OurBook
                             cmd.ExecuteNonQuery();
                             cn.Close();
 
-                            CheckBillComplete(temp.DateCreated);
+                            temp.CheckBillStatus(); 
                         }
                     }
                     MessageBox.Show("Your bills have been updated!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -72,7 +72,8 @@ namespace OurBook
                 MessageBox.Show("There are no bills selected to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            DisplayBillsListBox(); 
+            DisplayBillsListBox();
+            CheckForBills();
         }
 
         /// <summary>
@@ -95,9 +96,17 @@ namespace OurBook
         }
 
         /// <summary>
-        /// TRIGGER: Enabled or disables the paybill button When a user selects or deselects a bill. 
+        /// TRIGGER: Enables or disables the paybill button when a user selects or deselects a bill. 
         /// </summary>
         private void UnpaidBillsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CheckForBills(); 
+        }
+
+        /// <summary>
+        /// Enables or disables the paybill button when a user selects or deselects a bill. 
+        /// </summary>
+        private void CheckForBills()
         {
             if (UnpaidBillsListBox.SelectedItems.Count > 0)
             {
@@ -106,30 +115,6 @@ namespace OurBook
             else
             {
                 PayBillButton.Enabled = false;
-            }
-        }
-
-        /// <summary>
-        /// Checks whether the bill in the parameters is completed and if so updates the bill's datecompleted value in the BillingTable.
-        /// </summary>
-        /// <param name="dateCreated"> The dateCreated value of the bill to check. </param>
-        private void CheckBillComplete(DateTime dateCreated)
-        {
-            using (SqlConnection cn = new SqlConnection(dbConnectionStr))
-            {
-                // If there are zero UsersBills under "datecreated" that have datepaid as null, the bill is complete. Therefore update BillingTable bill datecompleted. 
-                String query = "IF EXISTS (SELECT * FROM UsersBills WHERE DateCreated=@DateCreated AND DatePaid IS NULL) " +
-                "BEGIN PRINT 'fail.' END" +
-                " ELSE " +
-                "BEGIN UPDATE BillingTable SET DateCompleted=GETDATE() WHERE DateCreated=@DateCreated END";
-                using (SqlCommand cmd = new SqlCommand(query, cn))
-                {
-                    cmd.Parameters.Add(new SqlParameter("DateCreated", SqlDbType.DateTime2) { Value = dateCreated });
-
-                    cn.Open();
-                    cmd.ExecuteNonQuery();
-                    cn.Close();
-                }
             }
         }
 
@@ -147,8 +132,8 @@ namespace OurBook
                 var query = "SELECT B.[Cost], " +
                 "B.[Name], " +
                 "B.[DateCreated], " +
-                "(CAST(B.Cost AS DECIMAL)/(B.DateCreated) AS SplitCost " +
-                "FROM BillingTable B WHERE B.DateCreated IN (SELECT UB.DateCreated FROM UsersBills UB WHERE UserId=@UserId AND DatePaid IS NULL)";
+                "(CAST(B.Cost AS DECIMAL(8,2))/(SELECT COUNT(*) FROM [dbo].[UserBill] WHERE DateCreated=B.DateCreated)) AS SplitCost " +
+                "FROM [dbo].[Bill] B WHERE B.DateCreated IN (SELECT UB.DateCreated FROM [dbo].[UserBill] UB WHERE UserId=@UserId AND DatePaid IS NULL)";
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
                     cmd.Parameters.Add(new SqlParameter("UserId", SqlDbType.VarChar) { Value = currentUser.id });
@@ -161,7 +146,7 @@ namespace OurBook
                         {
                             if (dr["DateCreated"] != null)
                             {
-                                billList.Add(new Bill((DateTime)dr["DateCreated"], (string)dr["name"], (decimal)dr["SplitCost"]));
+                                billList.Add(new Bill((DateTime)dr["DateCreated"], (string)dr["Name"], (decimal)dr["SplitCost"]));
                             }
                         }
                     }

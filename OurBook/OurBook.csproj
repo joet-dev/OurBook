@@ -62,6 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bill.cs" />
+    <Compile Include="ourbookDatabaseDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ourbookDatabaseDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="PassHashInterface.cs" />
     <Compile Include="User.cs" />
     <Compile Include="OBAdminCreate.cs">
@@ -75,11 +80,6 @@
     </Compile>
     <Compile Include="OBAdmin.Designer.cs">
       <DependentUpon>OBAdmin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ourbookDatabaseDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ourbookDatabaseDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="PassHash.cs" />
     <Compile Include="OBHome.cs">

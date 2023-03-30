@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -40,10 +41,10 @@ namespace OurBook
             {
                 using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                 {
-                    String query = "SELECT * FROM UserTable WHERE username=@userParam";
+                    String query = "SELECT * FROM [dbo].[User] WHERE Username=@Username";
                     using (SqlCommand cmd = new SqlCommand(query, cn))
                     {
-                        cmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
+                        cmd.Parameters.Add(new SqlParameter("@Username", SqlDbType.VarChar) { Value = usernameTextBox.Text });
 
                         cn.Open();
                         SqlDataReader dr = cmd.ExecuteReader();
@@ -132,6 +133,14 @@ namespace OurBook
             passwordTextBox.UseSystemPasswordChar = true;
             passwordTextBox.MaxLength = 14;
             passwordTextBox.AcceptsReturn = true;
+        }
+
+        private void RegisterButton_Click(object sender, EventArgs e)
+        {
+            var th = new Thread(() => Application.Run(new OBRegistration()));
+            th.Start();
+
+            this.Close();
         }
     }
 }

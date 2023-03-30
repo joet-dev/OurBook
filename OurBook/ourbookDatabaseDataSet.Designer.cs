@@ -20,9 +20,9 @@ namespace OurBook {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("ourbookDatabaseBillDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("ourbookDatabaseDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class ourbookDatabaseBillDataSet : global::System.Data.DataSet {
+    public partial class ourbookDatabaseDataSet : global::System.Data.DataSet {
         
         private BillDataTable tableBill;
         
@@ -30,7 +30,7 @@ namespace OurBook {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public ourbookDatabaseBillDataSet() {
+        public ourbookDatabaseDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace OurBook {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        protected ourbookDatabaseBillDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected ourbookDatabaseDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace OurBook {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            ourbookDatabaseBillDataSet cln = ((ourbookDatabaseBillDataSet)(base.Clone()));
+            ourbookDatabaseDataSet cln = ((ourbookDatabaseDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace OurBook {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "ourbookDatabaseBillDataSet";
+            this.DataSetName = "ourbookDatabaseDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/ourbookDatabaseBillDataSet.xsd";
+            this.Namespace = "http://tempuri.org/ourbookDatabaseDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableBill = new BillDataTable();
@@ -225,7 +225,7 @@ namespace OurBook {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            ourbookDatabaseBillDataSet ds = new ourbookDatabaseBillDataSet();
+            ourbookDatabaseDataSet ds = new ourbookDatabaseDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -531,7 +531,7 @@ namespace OurBook {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                ourbookDatabaseBillDataSet ds = new ourbookDatabaseBillDataSet();
+                ourbookDatabaseDataSet ds = new ourbookDatabaseDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -729,7 +729,7 @@ namespace OurBook {
         }
     }
 }
-namespace OurBook.ourbookDatabaseBillDataSetTableAdapters {
+namespace OurBook.ourbookDatabaseDataSetTableAdapters {
     
     
     /// <summary>
@@ -922,7 +922,7 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(ourbookDatabaseBillDataSet.BillDataTable dataTable) {
+        public virtual int Fill(ourbookDatabaseDataSet.BillDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -935,9 +935,9 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual ourbookDatabaseBillDataSet.BillDataTable GetData() {
+        public virtual ourbookDatabaseDataSet.BillDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            ourbookDatabaseBillDataSet.BillDataTable dataTable = new ourbookDatabaseBillDataSet.BillDataTable();
+            ourbookDatabaseDataSet.BillDataTable dataTable = new ourbookDatabaseDataSet.BillDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -945,14 +945,14 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(ourbookDatabaseBillDataSet.BillDataTable dataTable) {
+        public virtual int Update(ourbookDatabaseDataSet.BillDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(ourbookDatabaseBillDataSet dataSet) {
+        public virtual int Update(ourbookDatabaseDataSet dataSet) {
             return this.Adapter.Update(dataSet, "Bill");
         }
         
@@ -1222,7 +1222,7 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateUpdatedRows(ourbookDatabaseBillDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(ourbookDatabaseDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._billTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.Bill.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
@@ -1241,7 +1241,7 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateInsertedRows(ourbookDatabaseBillDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(ourbookDatabaseDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._billTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.Bill.Select(null, null, global::System.Data.DataViewRowState.Added);
@@ -1259,7 +1259,7 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateDeletedRows(ourbookDatabaseBillDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(ourbookDatabaseDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             if ((this._billTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.Bill.Select(null, null, global::System.Data.DataViewRowState.Deleted);
@@ -1301,7 +1301,7 @@ SELECT DateCreated, DateCompleted, Name, Cost, InvoiceId FROM Bill WHERE (DateCr
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public virtual int UpdateAll(ourbookDatabaseBillDataSet dataSet) {
+        public virtual int UpdateAll(ourbookDatabaseDataSet dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }

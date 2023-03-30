@@ -37,11 +37,13 @@ namespace OurBook
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.ShowHidePass = new System.Windows.Forms.CheckBox();
+            this.RegisterButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
             // 
             // loginButton
             // 
+            this.loginButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loginButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.loginButton.Location = new System.Drawing.Point(12, 117);
             this.loginButton.Name = "loginButton";
@@ -73,7 +75,7 @@ namespace OurBook
             // 
             this.usernameTextBox.Location = new System.Drawing.Point(12, 32);
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(272, 20);
+            this.usernameTextBox.Size = new System.Drawing.Size(275, 20);
             this.usernameTextBox.TabIndex = 1;
             // 
             // passwordTextBox
@@ -99,12 +101,26 @@ namespace OurBook
             this.ShowHidePass.UseVisualStyleBackColor = true;
             this.ShowHidePass.CheckedChanged += new System.EventHandler(this.ShowHidePass_CheckedChanged);
             // 
+            // RegisterButton
+            // 
+            this.RegisterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RegisterButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RegisterButton.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.RegisterButton.Location = new System.Drawing.Point(212, 117);
+            this.RegisterButton.Name = "RegisterButton";
+            this.RegisterButton.Size = new System.Drawing.Size(75, 23);
+            this.RegisterButton.TabIndex = 11;
+            this.RegisterButton.Text = "Register";
+            this.RegisterButton.UseVisualStyleBackColor = true;
+            this.RegisterButton.Click += new System.EventHandler(this.RegisterButton_Click);
+            // 
             // OBLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(299, 154);
+            this.ClientSize = new System.Drawing.Size(299, 152);
+            this.Controls.Add(this.RegisterButton);
             this.Controls.Add(this.ShowHidePass);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
@@ -131,5 +147,6 @@ namespace OurBook
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.CheckBox ShowHidePass;
+        private System.Windows.Forms.Button RegisterButton;
     }
 }

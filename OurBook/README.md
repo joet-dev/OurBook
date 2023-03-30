@@ -32,4 +32,4 @@ possibly allowing them to confirm payment through a weblink in the email
 <br>
 
 ## TODO:
-- Remove NumPayee. Replace with "Select Count(*) from UsersBills where DateCreated=@DateCreated."
+

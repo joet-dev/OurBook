@@ -17,50 +17,60 @@ namespace OurBook
         private List<User> accList = new List<User>();
         private DateTime creationTime = DateTime.Now;
         private String dbConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True";
-        
+        private User currentUser;
+        private Bill currentBill; 
+
         /// <summary>
         /// Bill Creation form for OurBook. 
         /// </summary>
-        public OBAdminCreate()
+        public OBAdminCreate(User user)
         {
             InitializeComponent();
+
+            this.currentUser = user; 
 
             InitializeFormDisplay();
             DisplayUsersChkListBox();
         }
 
+        private void AmountValue_Enter(object sender, EventArgs e)
+        {
+           AmountValue.Select(0, AmountValue.Value.ToString().Length);
+        }
+
         /// <summary>
-        /// Creates a new bill in the BillingTable. 
+        /// Creates a new bill in the Bill table. 
         /// </summary>
+        /// 
         private void CreateButton_Click(object sender, EventArgs e)
         {
             if (IsInputValid())
             {
+                currentBill = new Bill(creationTime, TitleTextBox.Text, ((decimal) AmountValue.Value / UsersListBox.Items.Count)); 
                 using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                 {
-                    String query = "insert into BillingTable values(@DateCreated, @DateCompleted, @Name, @Cost, @NumPayee, @InvoiceId)";
+                    String query = "INSERT INTO [dbo].[Bill] values(@DateCreated, @DateCompleted, @Name, @Cost, @InvoiceId)";
                     using (SqlCommand cmd = new SqlCommand(query, cn))
                     {
                         cmd.Parameters.AddWithValue("Name", TitleTextBox.Text);
                         cmd.Parameters.AddWithValue("InvoiceId", InvoiceTextBox.Text);
                         cmd.Parameters.AddWithValue("Cost", AmountValue.Value);
-                        cmd.Parameters.AddWithValue("NumPayee", UsersListBox.CheckedItems.Count);
                         cmd.Parameters.AddWithValue("DateCreated", creationTime);
                         cmd.Parameters.AddWithValue("DateCompleted", DBNull.Value);
 
                         cn.Open();
-
                         cmd.ExecuteNonQuery();
-                        BillUsers();
-
                         cn.Close();
+
+                        BillUsers();
 
                         MessageBox.Show("The bill has been added to the database.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        this.Hide();
+                        currentBill.CheckBillStatus(); 
                     }
                 }
             }
+            this.Close();
         }
 
         /// <summary>
@@ -96,7 +106,7 @@ namespace OurBook
             using (SqlConnection cn = new SqlConnection(dbConnectionStr))
             {
                 //Get all users and display them in the UsersListBox. 
-                String query = "select Id, username, role from UserTable";
+                String query = "SELECT Id, Username, Role FROM [dbo].[User]";
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
                     cn.Open();
@@ -121,12 +131,6 @@ namespace OurBook
                     cn.Close();
                 }
             }
-
-            //Add users from list to checkedListBox. 
-            //for (int i = 0; i < accList.Count; i++)
-            //{
-            //    UsersListBox.Items.Add(accList[i]);
-            //}
         }
  
         /// <summary>
@@ -136,21 +140,27 @@ namespace OurBook
         {
             if (UsersListBox.CheckedItems.Count != 0)
             {
+                bool updateBill = false; 
                 for (int i = 0; i < UsersListBox.CheckedItems.Count; i++)
                 {
                     User temp = (User)UsersListBox.CheckedItems[i];
 
                     using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                     {
-                        String query = "insert into UsersBills values(@UserId, @BillId, @DatePaid)";
+                        String query = "INSERT INTO [dbo].[UserBill] values(@UserId, @DateCreated, @DatePaid)";
                         using (SqlCommand cmd = new SqlCommand(query,cn))
                         {
-                            cmd.Parameters.AddWithValue("BillId", creationTime);
+                            cmd.Parameters.AddWithValue("DateCreated", creationTime);
                             cmd.Parameters.AddWithValue("UserId", temp.id);
 
-                            if (temp.role == "admin")
+                            if (temp.role == "admin" && temp.id == currentUser.id)
                             {
                                 cmd.Parameters.AddWithValue("DatePaid", creationTime);
+
+                                if (UsersListBox.CheckedItems.Count == 1)
+                                {
+                                    updateBill = true;
+                                }
                             }
                             else
                             {
@@ -159,7 +169,23 @@ namespace OurBook
 
                             cn.Open(); 
                             cmd.ExecuteNonQuery();
-                            cn.Close(); 
+                            cn.Close();
+                        }
+                    }
+                }
+                // If the only user that has the bill is the current admin, mark the bill as completed. 
+                if (updateBill)
+                {
+                    using (SqlConnection cn = new SqlConnection(dbConnectionStr))
+                    {
+                        String query = "UPDATE [dbo].[Bill] SET DateCompleted=@DateCreated WHERE DateCreated=@DateCreated"; 
+                        using (SqlCommand cmd = new SqlCommand(query, cn))
+                        {
+                            cmd.Parameters.AddWithValue("DateCreated", creationTime);
+
+                            cn.Open();
+                            cmd.ExecuteNonQuery();
+                            cn.Close();
                         }
                     }
                 }

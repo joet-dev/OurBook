@@ -48,7 +48,7 @@ namespace OurBook
 
             using (SqlConnection cn = new SqlConnection(dbConnectionStr))
             {
-                String query = "SELECT * FROM UserTable WHERE Id=@userParam";
+                String query = "SELECT * FROM [dbo].[User] WHERE Id=@userParam";
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
                     cmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = id });

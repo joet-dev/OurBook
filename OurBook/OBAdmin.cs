@@ -22,7 +22,7 @@ namespace OurBook
 {
     public partial class OBAdmin : Form
     {
-        User user; 
+        User currentUser; 
 
         /// <summary>
         /// Admin dashboard for OurBook. 
@@ -33,9 +33,39 @@ namespace OurBook
         {
             InitializeComponent();
 
-            user = new User(userId); 
+            this.currentUser = new User(userId); 
 
             InitializeFormDisplay();
+            PopulateDataGridView();
+        }
+
+        /// <summary>
+        /// BUTTON: Creates a new bill. 
+        /// </summary>
+        private void CreateBillButton_Click(object sender, EventArgs e)
+        {
+            OBAdminCreate create = new OBAdminCreate(currentUser);
+            create.ShowDialog();
+
+            PopulateDataGridView();
+        }
+
+        /// <summary>
+        /// BUTTON: Logs out the user. 
+        /// </summary>
+        private void LogoutButton_Click(object sender, EventArgs e)
+        {
+            var th = new Thread(() => Application.Run(new OBLogin()));
+            th.Start(); 
+
+            this.Close();
+        }
+
+        /// <summary>
+        /// BUTTON: Refreshes the Bill display.
+        /// </summary>
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
             PopulateDataGridView();
         }
 
@@ -44,12 +74,12 @@ namespace OurBook
         /// </summary>
         private void PopulateDataGridView()
         {
-            try 
+            try
             {
-                billingTableBindingSource.DataSource = GetTableData("SELECT * FROM BillingTable");
-                BillingGridView.DataSource = billingTableBindingSource;
+                billBindingSource.DataSource = GetTableData("SELECT * FROM [dbo].[Bill]");
+                BillGridView.DataSource = billBindingSource;
 
-                BillingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+                BillGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             }
             catch (SqlException)
             {
@@ -76,29 +106,7 @@ namespace OurBook
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
             adpt.Fill(table);
 
-            return table; 
-        }
-
-        /// <summary>
-        /// BUTTON: Creates a new bill. 
-        /// </summary>
-        private void CreateBillButton_Click(object sender, EventArgs e)
-        {
-            OBAdminCreate create = new OBAdminCreate();
-            create.ShowDialog();
-
-            PopulateDataGridView();
-        }
-
-        /// <summary>
-        /// BUTTON: Logs out the user. 
-        /// </summary>
-        private void LogoutButton_Click(object sender, EventArgs e)
-        {
-            var th = new Thread(() => Application.Run(new OBLogin()));
-            th.Start(); 
-
-            this.Close();
+            return table;
         }
 
         /// <summary>
@@ -107,7 +115,7 @@ namespace OurBook
         private void InitializeFormDisplay()
         {
             this.CenterToScreen();
-            UserLabel.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase("User: " + user.username); 
+            UserLabel.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase("User: " + currentUser.username); 
         }
     }
 }

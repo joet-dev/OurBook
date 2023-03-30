@@ -7,6 +7,8 @@
                     
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +37,29 @@ namespace OurBook
         public string Name { get; }
         public decimal SplitCost { get; }
 
+        /// <summary>
+        /// Checks whether the bill has been paid by all relevant parties. 
+        /// </summary>
+        public void CheckBillStatus()
+        {
+            String dbConnectionStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\source\repos\OurBook\OurBook\ourbookDatabase.mdf;Integrated Security=True";
+            using (SqlConnection cn = new SqlConnection(dbConnectionStr))
+            {
+                // If there are zero UsersBills under "datecreated" that have datepaid as null, the bill is complete. Therefore update bill datecompleted in Bill table. 
+                String query = "IF EXISTS (SELECT * FROM [dbo].[UserBill] WHERE DateCreated=@DateCreated AND DatePaid IS NULL) " +
+                "BEGIN PRINT 'fail' END" +
+                " ELSE " +
+                "BEGIN UPDATE [dbo].[Bill] SET DateCompleted=GETDATE() WHERE DateCreated=@DateCreated END";
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.Add(new SqlParameter("DateCreated", SqlDbType.DateTime2) { Value = this.DateCreated });
+
+                    cn.Open();
+                    var rowsUpdated = cmd.ExecuteNonQuery();
+                    cn.Close();
+                }
+            }
+        }
         public override string ToString() => $"${Math.Round(SplitCost, 2)} - {Name} ({DateCreated})";
     }
 }

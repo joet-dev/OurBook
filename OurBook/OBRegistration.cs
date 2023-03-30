@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -57,13 +58,13 @@ namespace OurBook
 
                 using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                 {
-                    String query = "INSERT INTO UserTable VALUES(@username, @password, @salt, @role)";
+                    String query = "INSERT INTO [dbo].[User] VALUES(@Username, @Password, @Salt, @Role)";
                     using (SqlCommand cmd = new SqlCommand(query, cn))
                     {
-                        cmd.Parameters.AddWithValue("username", usernameTextBox.Text);
-                        cmd.Parameters.AddWithValue("password", hashedPassword);
-                        cmd.Parameters.AddWithValue("salt", salt);
-                        cmd.Parameters.AddWithValue("role", Enum.GetName(this.role.GetType(), this.role));
+                        cmd.Parameters.AddWithValue("Username", usernameTextBox.Text);
+                        cmd.Parameters.AddWithValue("Password", hashedPassword);
+                        cmd.Parameters.AddWithValue("Salt", salt);
+                        cmd.Parameters.AddWithValue("Role", Enum.GetName(this.role.GetType(), this.role));
 
                         cn.Open();
                         cmd.ExecuteNonQuery();
@@ -80,6 +81,17 @@ namespace OurBook
         }
 
         /// <summary>
+        /// Returns user to the login window.
+        /// </summary>
+        private void ReturnButton_Click(object sender, EventArgs e)
+        {
+            var th = new Thread(() => Application.Run(new OBLogin()));
+            th.Start();
+
+            this.Close();
+        }
+
+        /// <summary>
         /// Validates user input to ensure values are appropriate for database insert. 
         /// </summary>
         /// <returns> Boolean reflecting input validity </returns>
@@ -91,10 +103,10 @@ namespace OurBook
                 {
                     using (SqlConnection cn = new SqlConnection(dbConnectionStr))
                     {
-                        String query = "SELECT username from UserTable where username=@userParam";
+                        String query = "SELECT username FROM [dbo].[User] WHERE username=@Username";
                         using (SqlCommand selectCmd = new SqlCommand(query, cn))
                         {
-                            selectCmd.Parameters.Add(new SqlParameter("@userParam", SqlDbType.VarChar) { Value = usernameTextBox.Text });
+                            selectCmd.Parameters.Add(new SqlParameter("Username", SqlDbType.VarChar) { Value = usernameTextBox.Text });
 
                             cn.Open();
                             String username = (string) selectCmd.ExecuteScalar();

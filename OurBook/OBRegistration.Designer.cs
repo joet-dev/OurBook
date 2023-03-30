@@ -38,6 +38,7 @@ namespace OurBook
             this.confirmPasswordTextBox = new System.Windows.Forms.TextBox();
             this.confirmPasswordLabel = new System.Windows.Forms.Label();
             this.RoleLabel = new System.Windows.Forms.Label();
+            this.ReturnButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // registrationButton
@@ -45,7 +46,7 @@ namespace OurBook
             this.registrationButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.registrationButton.Location = new System.Drawing.Point(12, 160);
             this.registrationButton.Name = "registrationButton";
-            this.registrationButton.Size = new System.Drawing.Size(75, 23);
+            this.registrationButton.Size = new System.Drawing.Size(62, 23);
             this.registrationButton.TabIndex = 0;
             this.registrationButton.Text = "Register";
             this.registrationButton.UseVisualStyleBackColor = true;
@@ -111,12 +112,24 @@ namespace OurBook
             this.RoleLabel.Text = "Role Placeholder";
             this.RoleLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
+            // ReturnButton
+            // 
+            this.ReturnButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ReturnButton.Location = new System.Drawing.Point(80, 160);
+            this.ReturnButton.Name = "ReturnButton";
+            this.ReturnButton.Size = new System.Drawing.Size(54, 23);
+            this.ReturnButton.TabIndex = 8;
+            this.ReturnButton.Text = "Return";
+            this.ReturnButton.UseVisualStyleBackColor = true;
+            this.ReturnButton.Click += new System.EventHandler(this.ReturnButton_Click);
+            // 
             // OBRegistration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(299, 194);
+            this.Controls.Add(this.ReturnButton);
             this.Controls.Add(this.RoleLabel);
             this.Controls.Add(this.confirmPasswordTextBox);
             this.Controls.Add(this.confirmPasswordLabel);
@@ -145,6 +158,7 @@ namespace OurBook
         private System.Windows.Forms.TextBox confirmPasswordTextBox;
         private System.Windows.Forms.Label confirmPasswordLabel;
         private System.Windows.Forms.Label RoleLabel;
+        private System.Windows.Forms.Button ReturnButton;
     }
 }
 
