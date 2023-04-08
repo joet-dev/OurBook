@@ -3,6 +3,8 @@
 ## Description
 This is a simple billing program geared towards housemates/tenants to simplify sharing and tracking bills.
 
+![Billing Tracker Screenshots](https://github.com/joet-dev/OurBook/blob/master/obBillingTracker.png?raw=true)
+
 **How it works**
 
 Users can be registered to the application as either admins or users. Admin users can 
