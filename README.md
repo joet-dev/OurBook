@@ -7,11 +7,11 @@ This is a simple billing program geared towards housemates/tenants to simplify s
 
 **How it works**
 
-Users can be registered with the application as either administrators or users. Admin users can 
+Users can be registered with the application as either administrators or users (img 2). Admin users can 
 upload bills to the SQL server with details such as tile, invoice no., value amount, 
-date created and the users it applies to. 
+date created and the users it applies to (img 3 & 4). 
 
-Users can then view their bills through their homepage. They can check bills they
+Users can then view their bills through their homepage (img 5). They can check bills they
 have paid off, automatically updating the servers, recording the date and time of payment, and the 
 date and time once the bill has been fully paid by all recipitents. 
 
